@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "*",
+	"forever": "*",
 	"body-parser": "*",
     "mu2": "*",
     "mongoose": "*"
