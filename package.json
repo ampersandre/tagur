@@ -1,0 +1,11 @@
+{
+  "name": "tagur",
+  "description": "a tool to annotate images",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "*",
+	"body-parser": "*",
+    "mu2": "*",
+    "mongoose": "*"
+  }
+}
