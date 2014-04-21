@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/image-comments.js"></script>
+    <script>
+        $(function() {
+            var loadImageButton = $('#loadImageButton');
+            var imageUrlInput = $('#urlInput');
+            var imageContainer = $('#imageContainer');
+            loadImageButton.click(function() {
+                var imageUrl = imageUrlInput.val();
+                var encodedUrl = encodeURIComponent(imageUrl)
+                $.post('/new/', { src: imageUrl },
+                        function(data) {
+                            imageContainer.html('<img src="'+imageUrl+'" id="targetImage"/>');
+                            var permalink = $('<a href="">Link to this image</a>').hide();
+                            imageContainer.append(permalink);
+                            var commentImage = ImageComments.prepare({
+                                id: 'targetImage',
+                                onCommentAdded: function(comment) {
+                                    $.post('/image/', {
+                                        src: commentImage.src,
+                                        comment: comment.comment,
+                                        x: comment.x,
+                                        y: comment.y
+                                    }, function(data){
+                                        permalink.show().attr('href','/image/'+data._id);
+                                    });
+                                }
+                            });
+
+                            if (data.length > 0) {
+                                var comments = data[0].comments;
+                                for (var i = 0; i < comments.length; i++) {
+                                    var comment = comments[i];
+                                    commentImage.addComment({
+                                        x: comment.x,
+                                        y: comment.y,
+                                        comment: comment.text
+                                    });
+                                }
+                            }
+                        });
+            });
+        });
+    </script>
+</head>
+<body style="text-align: center">
+<label>Enter an image URL: <input id="urlInput" name="src"/></label>
+<button id="loadImageButton">Load Image</button>
+<form method="post" action="/image/upload" enctype="multipart/form-data">
+    <input type="file" name="uploadedImage"/>
+    <input type="submit">Submit</input>
+</form>
+<div id="imageContainer"></div>
+</body>
+</html>
