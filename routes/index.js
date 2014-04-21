@@ -32,11 +32,6 @@ function saveImage(req, res, objectId) {
 router.post('/image', function(req, res) {
     saveImage(req, res);
 });
-router.post('/image/upload', function(req, res){
-    console.log(req);
-    console.log(req.files);
-    res.json(true);
-})
 router.post('/image/:id', function(req, res) {
     var objectId = req.params.id;
     saveImage(req, res, objectId);
@@ -46,6 +41,11 @@ router.get('/image/:id', function(req, res) {
     Image.find({_id: objectId}, function(err, image) {
         if (err) return console.error(err);
         res.json(image);
+    });
+});
+router.get('/images', function(req, res) {
+    Image.find({}, function(err, images) {
+        res.json(images);
     });
 });
 router.post('/new', function(req,res) {

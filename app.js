@@ -21,6 +21,15 @@ app.use(cookieParser());
 app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Require all the models
+fs.readdirSync(__dirname + '/models').forEach(function(filename){
+    if (~filename.indexOf('.js')) { require(__dirname + '/models/'+ filename); }
+})
+
+// Load routes
+var routes = require('./routes/index');
+app.use('/', routes);
+
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -50,15 +59,6 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-// Require all the models
-fs.readdirSync(__dirname + '/models').forEach(function(filename){
-    if (~filename.indexOf('.js')) { require(__dirname + '/models/'+ filename); }
-})
-
-// Load routes
-var routes = require('./routes/index');
-app.use('/', routes);
 
 module.exports = app;
 
