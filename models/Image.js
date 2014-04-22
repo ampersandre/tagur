@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
 mongoose.model('Image', new mongoose.Schema({
-    url: String,
+    src: String,
     comments: [new mongoose.Schema({
-        x: Number,
-        y: Number,
+        xP: Number,
+        yP: Number,
         text: String,
         date: { type: Date, 'default': Date.now }
     })]

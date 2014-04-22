@@ -28,27 +28,36 @@ var Tagur = (function() {
 				marker.css({ left:x-11, top:y-12 });
 			},
 			editorPosition: function(editor, x, y) {
-				if (x >= imageWidth / 2 && y >= imageHeight / 2) { /* The marker is in the bottom-right of the image */
-					editor.css({ top:'auto', right:imageWidth-x+13, bottom: imageHeight-y+2, left: 'auto' });
-				} else if (x >= imageWidth / 2 && y < imageHeight / 2) { /* The marker is in the top-right of the image */
-					editor.css({ top:y-12, right:imageWidth-x+13, bottom: 'auto', left: 'auto' });
-				} else if (x < imageWidth / 2 && y < imageHeight / 2) { /* The marker is in the top-left of the image */
+                var width = imageWidth();
+                var height = imageHeight();
+				if (x >= width / 2 && y >= height / 2) { /* The marker is in the bottom-right of the image */
+					editor.css({ top:'auto', right:width-x+13, bottom: height-y+2, left: 'auto' });
+				} else if (x >= width / 2 && y < height / 2) { /* The marker is in the top-right of the image */
+					editor.css({ top:y-12, right:width-x+13, bottom: 'auto', left: 'auto' });
+				} else if (x < width / 2 && y < height / 2) { /* The marker is in the top-left of the image */
 					editor.css({ top:y-12, right:'auto', bottom: 'auto', left: x+7 });
 				} else { /* The marker is in the bottom-left of the image */
-					editor.css({ top:'auto', right:'auto', bottom: imageHeight-y+2, left: x+7 });
+					editor.css({ top:'auto', right:'auto', bottom: height-y+2, left: x+7 });
 				}
+                // Try this: always assume the marker is in the top-left;
+                editor.css({ top:y-12, right:'auto', bottom: 'auto', left: x+7 });
 			},
 			popupPosition: function(popup, x, y) {
+                console.log(x);
+                var width = imageWidth();
+                var height = imageHeight();
 				popup.removeClass('br bl tr tl');
-				if (x >= imageWidth / 2 && y >= imageHeight / 2) { /* The marker is in the bottom-right of the image */
-					popup.css({ top:'auto', right:imageWidth-x+15, bottom: imageHeight-y+2, left: 'auto' }).addClass('br');
-				} else if (x >= imageWidth / 2 && y < imageHeight / 2) { /* The marker is in the top-right of the image */
-					popup.css({ top:y-15, right:imageWidth-x+15, bottom: 'auto', left: 'auto' }).addClass('tr');
-				} else if (x < imageWidth / 2 && y < imageHeight / 2) { /* The marker is in the top-left of the image */
+				if (x >= width / 2 && y >= height / 2) { /* The marker is in the bottom-right of the image */
+					popup.css({ top:'auto', right:width-x+15, bottom: height-y+2, left: 'auto' }).addClass('br');
+				} else if (x >= width / 2 && y < height / 2) { /* The marker is in the top-right of the image */
+					popup.css({ top:y-15, right:width-x+15, bottom: 'auto', left: 'auto' }).addClass('tr');
+				} else if (x < width / 2 && y < height / 2) { /* The marker is in the top-left of the image */
 					popup.css({ top:y-15, right:'auto', bottom: 'auto', left: x+9 }).addClass('tl');
 				} else { /* The marker is in the bottom-left of the image */
-					popup.css({ top:'auto', right:'auto', bottom: imageHeight-y+2, left: x+9 }).addClass('bl');
+					popup.css({ top:'auto', right:'auto', bottom: height-y+2, left: x+9 }).addClass('bl');
 				}
+                // Try this: always put it to the left of the marker
+                popup.css({ top:y-15, right:'auto', bottom: 'auto', left: x+9 }).addClass('tl');
 			},
 			readOnly: false
 		}
@@ -57,11 +66,11 @@ var Tagur = (function() {
 		
 		/* State Variables */
 		var image = settings.image || $('#'+settings.id);
-		var imageWidth = settings.width || image.width();
-		var imageHeight = settings.height || image.height();
+		function imageWidth() { return settings.width || image.width(); }
+		function imageHeight() { return settings.height || image.height(); }
 		var comments = [];
 		var newMarker;
-		
+
 		/* UI */
 		var imageContainer = $('<div class="annotationContainer">');
 		var popup = $('<div class="annotationPopup">').hide();
@@ -74,8 +83,7 @@ var Tagur = (function() {
 		editor.append(editorInput).append(editorInputLimit).append(editorSave).append(editorCancel).click(function(e) { e.stopPropagation(); });
 		
 		editorInput.keypress(function(e){ if (e.which == 13) { editorSave.click(); return false; } });
-		
-		imageContainer.css({ width: imageWidth, height: imageHeight});
+
 		imageContainer = image.wrap(imageContainer).parent();
 		imageContainer.append(editor).append(popup);
 
@@ -85,8 +93,8 @@ var Tagur = (function() {
 			if (newMarker.comment) {
 				var comment = {
 					comment: newMarker.comment,
-					x: newMarker.x,
-					y: newMarker.y,
+					xP: newMarker.xP,
+					yP: newMarker.yP,
 					marker: newMarker
 				}
 				comments.push(comment);
@@ -108,8 +116,11 @@ var Tagur = (function() {
 			imageContainer.click(function(e) {
 				if (newMarker) { newMarker.remove(); }
 		        var posX = e.pageX-$(this).offset().left, posY = e.pageY-$(this).offset().top;
-		        
-		        newMarker = addMarker(posX, posY);
+
+                var xP = posX / imageWidth();
+                var yP = posY / imageHeight();
+
+		        newMarker = addMarker(xP, yP);
 		        settings.editorPosition(editor, posX, posY);
 		        editor.show();
 		        editorInput.focus();
@@ -118,14 +129,14 @@ var Tagur = (function() {
 		limitInput(editorInput, 140, editorInputLimitCount);
 
 		/* Public Methods */
-		function addMarker(x, y) {
+		function addMarker(xP, yP) {
 			var marker = $('<div class="annotationMarker">');
-			settings.markerPosition(marker, x, y);
+			settings.markerPosition(marker, xP * imageWidth(), yP * imageHeight());
 	        marker.hover(function() {
 	        	marker.addClass('hover');
 	        	if (marker.comment){
 		        	popup.html(marker.comment).show();
-		        	settings.popupPosition(popup, x, y);
+		        	settings.popupPosition(popup, xP * imageWidth(), yP * imageHeight());
 	        	}
 	        }, function() {
 	        	marker.removeClass('hover');
@@ -133,15 +144,15 @@ var Tagur = (function() {
 	        });
 	        marker.click(function(e) { e.stopPropagation(); });
 
-	        marker.x = x;
-	        marker.y = y;
+	        marker.xP = xP;
+	        marker.yP = yP;
 
 	        imageContainer.append(marker);
 	        return marker;
 		}
 
 		var addComment = function(comment) {
-			var marker = addMarker(comment.x, comment.y);
+			var marker = addMarker(comment.xP, comment.yP);
 			marker.comment = comment.comment;
 			comment.marker = marker;
 			comments.push(comment);

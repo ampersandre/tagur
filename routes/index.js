@@ -5,14 +5,14 @@ var Image = mongoose.model('Image');
 
 function saveImage(req, res, objectId) {
     if (!(req.body.hasOwnProperty('src') || objectId) ||
-        !req.body.hasOwnProperty('x') || !req.body.hasOwnProperty('y') ||
+        !req.body.hasOwnProperty('xP') || !req.body.hasOwnProperty('yP') ||
         !req.body.hasOwnProperty('comment')) {
         res.statusCode = 400;
         return res.send('Error 400: Post syntax incorrect');
     }
     var query = {};
     var imageDetails = {};
-    var newComment = { x: parseInt(req.body.x), y: parseInt(req.body.y), text: req.body.comment };
+    var newComment = { xP: parseFloat(req.body.xP), yP: parseFloat(req.body.yP), text: req.body.comment };
     if (objectId) { query._id = objectId; }
     else {
         query.src = req.body.src;
@@ -38,9 +38,8 @@ router.post('/image/:id', function(req, res) {
 });
 router.get('/image/:id', function(req, res) {
     var objectId = req.params.id;
-    Image.find({_id: objectId}, function(err, image) {
-        if (err) return console.error(err);
-        res.json(image);
+    Image.findById(objectId, function(err, image) {
+        res.render('index', { imageJson: image });
     });
 });
 router.get('/images', function(req, res) {
@@ -61,7 +60,9 @@ router.post('/new', function(req,res) {
 });
 
 router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
+    Image.findById('5355dffad299fa214bbfd28e', function(err, image) {
+        res.render('index', { imageJson: image, caption: "Here's one of our favourites:" });
+    });
 });
 
 module.exports = router;
