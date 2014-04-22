@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/css/style.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="/js/image-comments.js"></script>
@@ -48,12 +49,23 @@
     </script>
 </head>
 <body style="text-align: center">
-<label>Enter an image URL: <input id="urlInput" name="src"/></label>
-<button id="loadImageButton">Load Image</button>
-<form method="post" action="/image/upload" enctype="multipart/form-data">
-    <input type="file" name="uploadedImage"/>
-    <input type="submit">Submit</input>
-</form>
-<div id="imageContainer"></div>
+<div id="body">
+    <header><h1>Tagur.</h1></header>
+    <div class="clearfix">
+        <div id="left">
+            <div id="imageContainer"></div>
+        </div>
+        <div id="right">
+            <input id="urlInput" name="src" placeholder="Paste image URL"/>
+            <button id="loadImageButton">Load Image</button>
+            
+            <form method="post" action="/image/upload" enctype="multipart/form-data">
+                <input type="file" name="uploadedImage"/>
+                <input type="submit">Submit</input>
+            </form>
+        </div>
+    </div>
+    <footer>Built in Node.js with Express, Mongoose and Hogan <img src="/images/hogan-icon.png"/></footer>
+</div>
 </body>
 </html>
