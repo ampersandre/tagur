@@ -1,5 +1,5 @@
 
-var ImageComments = (function() {
+var Tagur = (function() {
 	function limitInput(target, limit, elem) {
         target.on("keyup focus", function() {
             setCount(target[0], elem);
