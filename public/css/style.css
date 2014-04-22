@@ -48,11 +48,32 @@ body {
 #sharing {
   text-align: center;
 }
+#sharing b {
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+  vertical-align: top;
+  margin-right: 10px;
+}
 #sharing span,
 #sharing a {
   display: inline-block;
+  vertical-align: top;
   width: 32px;
   height: 32px;
+}
+h2 {
+  margin: 0;
+  padding: 3px 5px;
+  color: #4E9CB5;
+}
+h3 {
+  color: #004760;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 3px 0 5px;
 }
 .shareTwitter {
   background: url(/images/twitter-icon.png) 0 0 no-repeat;

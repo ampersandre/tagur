@@ -61,7 +61,7 @@ router.post('/new', function(req,res) {
 
 router.get('/', function(req, res) {
     Image.findById('5355dffad299fa214bbfd28e', function(err, image) {
-        res.render('index', { imageJson: image, caption: "Here's one of our favourites:" });
+        res.render('index', { imageJson: image, home: true });
     });
 });
 

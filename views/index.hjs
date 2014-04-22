@@ -39,7 +39,7 @@
 
 
                     var showShareLinks = function(id) {
-                        var sharing = $('<div id="sharing"></div>');
+                        var sharing = $('<div id="sharing"><b>Share: </b></div>');
                         var shareUrl = 'http://'+window.location.host + '/image/'+id;
 
                         /* Hook up the share buttons */
@@ -63,7 +63,7 @@
                             return false;
                         }));
                         sharing.append($('<a href="'+shareUrl+'" class="shareLink"></a>'));
-                        imageContainer.prepend(sharing);
+                        imageContainer.append(sharing);
                         showShareLinks = function() {}
                     }
 
@@ -111,11 +111,11 @@
 </head>
 <body style="text-align: center">
 <div id="body">
-    <header><h1>Tagur <img src="/images/comment-icon.png"/></h1>
-    <p>Click on the image to add a tag :)</p></header>
+    <header><h1>Tagur <img src="/images/comment-icon.png"/></h1></header>
     <div class="clearfix">
         <div id="left">
-            {{#caption}}<h2 id="caption" style="display: none;">{{caption}}</h2>{{/caption}}
+            {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
+            <h3>Click on the image to add tags :)</h3>
             <div id="imageContainer">
             </div>
         </div>
