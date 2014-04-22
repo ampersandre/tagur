@@ -1,11 +1,14 @@
 .annotationContainer {
   position: relative;
   margin: 0 auto;
+  cursor: pointer;
+  display: inline-block;
 }
 .annotationContainer.loaded {
 
 }
 .annotationEditor {
+  cursor: default;
   position: absolute;
   z-index: 999;
   display: -moz-inline-stack;
@@ -34,6 +37,7 @@
   margin-right: 4px;
 }
 .annotationEditorSave, .annotationEditorCancel {
+  cursor: pointer;
   border: 1px solid #C3C3C3;
   border-radius: 2px;
   padding: 2px 4px;
@@ -45,6 +49,7 @@
   padding: 2px 5px 2px 3px;
 }
 .annotationMarker {
+  cursor: default;
   position: absolute;
   height: 15px;
   width: 18px;

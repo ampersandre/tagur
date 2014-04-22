@@ -45,8 +45,26 @@ body {
   padding: 5px;
   border: 1px solid #4E9CB5;
 }
-.permalink {
-  font-weight: bold;
+#sharing {
+  text-align: center;
+}
+#sharing span,
+#sharing a {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+.shareTwitter {
+  background: url(/images/twitter-icon.png) 0 0 no-repeat;
+}
+.shareFacebook {
+  background: url(/images/facebook-icon.png) 0 0 no-repeat;
+}
+.shareGoogle {
+  background: url(/images/google-icon.png) 0 0 no-repeat;
+}
+.shareLink {
+  background: url(/images/link-icon.png) 0 0 no-repeat;
 }
 footer {
   line-height: 20px;

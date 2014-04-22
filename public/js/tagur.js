@@ -43,7 +43,6 @@ var Tagur = (function() {
                 editor.css({ top:y-12, right:'auto', bottom: 'auto', left: x+7 });
 			},
 			popupPosition: function(popup, x, y) {
-                console.log(x);
                 var width = imageWidth();
                 var height = imageHeight();
 				popup.removeClass('br bl tr tl');

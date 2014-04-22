@@ -18,8 +18,12 @@ body { background-color: #4E9CB5; margin: 0; font-family: 'Lato', sans-serif; fo
   margin: 0 auto;
   box-shadow: 0 0 4px 0 #79C9FF;
 }
-#left { width: 600px; float: left; }
-#left #targetImage { max-width: 600px; }
+#left {
+  width: 600px;
+  float: left;
+  #targetImage { max-width: 600px; }
+}
+
 #right { width: 360px; float: right; text-align: left; }
 #urlInput {
   padding: 5px;
@@ -31,7 +35,18 @@ body { background-color: #4E9CB5; margin: 0; font-family: 'Lato', sans-serif; fo
   padding: 5px;
   border: 1px solid #4E9CB5;
 }
-.permalink { font-weight: bold; }
+#sharing {
+  text-align: center;
+  span, a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+  }
+}
+.shareTwitter { background: url(/images/twitter-icon.png) 0 0 no-repeat; }
+.shareFacebook { background: url(/images/facebook-icon.png) 0 0 no-repeat; }
+.shareGoogle { background: url(/images/google-icon.png) 0 0 no-repeat; }
+.shareLink { background: url(/images/link-icon.png) 0 0 no-repeat; }
 footer {
   line-height: 20px;
   height: 20px;

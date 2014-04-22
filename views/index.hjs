@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/tagur.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
     <script src="/js/tagur.js"></script>
     <script>
         $(function() {
@@ -30,12 +31,42 @@
             function loadTagur(imageJson, imageUrl) {
                 $('#caption').hide();
                 imageUrl = imageUrl || imageJson[0].src;
+
                 var image = new Image();
                 imageContainer.html('<img src="' + imageUrl + '" id="targetImage"/>');
 
                 $(image).on('load', function() {
-                    var permalink = $('<a href="" class="permalink">Link to this image</a>').hide();
-                    imageContainer.append(permalink);
+
+
+                    var showShareLinks = function(id) {
+                        var sharing = $('<div id="sharing"></div>');
+                        var shareUrl = 'http://'+window.location.host + '/image/'+id;
+
+                        /* Hook up the share buttons */
+                        sharing.append($('<span class="shareFacebook"></span>').click(function() {
+                            FB.ui({
+                                method: 'feed',
+                                link: shareUrl
+                            }, function(response) { /* Success */ });
+                        }));
+                        sharing.append($('<a href="" class="shareTwitter"></a>').mouseover(function(e) { /* Update the twitter share link on hover so it's ready when they click */
+                            $(this).attr('href','https://twitter.com/intent/tweet?url='+encodeURIComponent(shareUrl));
+                            twttr.widgets.load(); /* Refresh the twitter share link, then reload the widget */
+                            e.preventDefault();
+                            return false;
+                        }));
+                        sharing.append($('<a href="" class="shareGoogle"></a>').click(function(e) {
+                            window.open('https://plus.google.com/share?url='+encodeURIComponent(shareUrl),
+                                    '',
+                                    'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
+                            e.preventDefault;
+                            return false;
+                        }));
+                        sharing.append($('<a href="'+shareUrl+'" class="shareLink"></a>'));
+                        imageContainer.prepend(sharing);
+                        showShareLinks = function() {}
+                    }
+
                     var commentImage = Tagur.prepare({
                         id: 'targetImage',
                         onCommentAdded: function (comment) {
@@ -45,13 +76,13 @@
                                 xP: comment.xP,
                                 yP: comment.yP
                             }, function (data) {
-                                permalink.show().attr('href', '/image/' + data._id);
+                                showShareLinks(data._id)
                             });
                         }
                     });
 
                     if (imageJson.length > 0) {
-                        permalink.show().attr('href', '/image/' + imageJson[0]._id);
+                        showShareLinks(imageJson[0]._id);
                         var comments = imageJson[0].comments;
                         for (var i = 0; i < comments.length; i++) {
                             var comment = comments[i];
@@ -80,7 +111,8 @@
 </head>
 <body style="text-align: center">
 <div id="body">
-    <header><h1>Tagur.</h1></header>
+    <header><h1>Tagur <img src="/images/comment-icon.png"/></h1>
+    <p>Click on the image to add a tag :)</p></header>
     <div class="clearfix">
         <div id="left">
             {{#caption}}<h2 id="caption" style="display: none;">{{caption}}</h2>{{/caption}}
@@ -89,17 +121,37 @@
         </div>
         <div id="right">
             <h2>Make one of your own</h2>
-            <input id="urlInput" name="src" placeholder="Paste image URL"/>
+            <input id="urlInput" name="src" placeholder="Paste an image URL"/>
             <button id="loadImageButton">Load Image</button>
+            <!--
             <h2>Or, upload an image</h2>
             <form id="uploadForm" method="post" action="/image/upload" enctype="multipart/form-data">
                 <input type="file" name="uploadedImage"/>
                 <br/>
                 <input type="submit">Upload</input>
             </form>
+            -->
         </div>
     </div>
     <footer>Built by <a href="https://github.com/ampersandre/tagur">ampersandre</a> in Node.js with Express, Mongoose and Hogan <img src="/images/hogan-icon.png"/></footer>
+    <div id="fb-root"></div>
+    <script> /* Include the FB API for the social button */
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '243022152568981',
+            status     : true,
+            xfbml      : true
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
 </div>
 </body>
 </html>
