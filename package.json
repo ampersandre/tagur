@@ -1,15 +1,16 @@
 {
-    "name": "tagur",
-    "description": "a tool to annotate images",
-    "version": "1.0.0",
-    "dependencies": {
-        "express": "~4.0.0",
-        "static-favicon": "~1.0.0",
-        "morgan": "~1.0.0",
-        "cookie-parser": "~1.0.1",
-        "body-parser": "~1.0.0",
-        "debug": "~0.7.4",
-        "hjs": "~0.0.6",
-        "less-middleware": "0.1.15"
-    }
+  "name": "tagur",
+  "description": "a tool to annotate images",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "~4.0.0",
+    "static-favicon": "~1.0.0",
+    "morgan": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "body-parser": "~1.0.0",
+    "debug": "~0.7.4",
+    "hjs": "~0.0.6",
+    "less-middleware": "0.1.15",
+    "multiparty": "~3.2.4"
+  }
 }

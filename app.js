@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var fs = require('fs');
+var multiparty = require('multiparty');
+var imgur = require('imgur');
 
 var app = express();
 
@@ -17,6 +19,16 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(function(req, res, next){
+    if(req.method === 'POST' && req.headers['content-type'].indexOf("multipart/form-data") !== -1){
+        var form = new multiparty.Form();
+        form.parse(req, function(err, fields, files){
+            req.files = files;
+            next();
+        });
+    }
+    else next();
+});
 app.use(cookieParser());
 app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));

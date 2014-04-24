@@ -37,7 +37,6 @@
 
                 $(image).on('load', function() {
 
-
                     var showShareLinks = function(id) {
                         var sharing = $('<div id="sharing"><b>Share: </b></div>');
                         var shareUrl = 'http://'+window.location.host + '/image/'+id;
@@ -123,14 +122,14 @@
             <h2>Make one of your own</h2>
             <input id="urlInput" name="src" placeholder="Paste an image URL"/>
             <button id="loadImageButton">Load Image</button>
-            <!--
+
             <h2>Or, upload an image</h2>
             <form id="uploadForm" method="post" action="/image/upload" enctype="multipart/form-data">
                 <input type="file" name="uploadedImage"/>
                 <br/>
                 <input type="submit">Upload</input>
             </form>
-            -->
+
         </div>
     </div>
     <footer>Built by <a href="https://github.com/ampersandre/tagur">ampersandre</a> in Node.js with Express, Mongoose and Hogan <img src="/images/hogan-icon.png"/></footer>
