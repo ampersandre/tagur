@@ -34,15 +34,7 @@ router.post('/image', function(req, res) {
 });
 router.post('/image/upload', function(req, res) {
     console.log(req.files);
-    imgur.upload(req.files.uploadedImage[0].path, function (response) {
-        console.log(response);
-        if (response.error) {
-            console.log(response.error);
-            res.json(true);
-            return;
-        }
-        res.json(true);
-    });
+    res.send('Not implemented yet.');
 });
 router.post('/image/:id', function(req, res) {
     var objectId = req.params.id;
