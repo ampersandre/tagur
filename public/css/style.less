@@ -12,19 +12,12 @@
     display: block;
 }
 body { background-color: #4E9CB5; margin: 0; font-family: 'Lato', sans-serif; font-size: 13px; }
-#body {
+.container {
   background-color: #FFF;
-  width: 980px;
   margin: 0 auto;
   box-shadow: 0 0 4px 0 #79C9FF;
 }
-#left {
-  width: 600px;
-  float: left;
-  #targetImage { max-width: 600px; }
-}
 
-#right { width: 360px; float: right; text-align: left; }
 #urlInput {
   padding: 5px;
   font-size: 15 px;
@@ -36,7 +29,7 @@ body { background-color: #4E9CB5; margin: 0; font-family: 'Lato', sans-serif; fo
   border: 1px solid #4E9CB5;
 }
 #sharing {
-
+  margin: 10px 0;
   text-align: center;
   b {
     display: inline-block;
@@ -53,6 +46,8 @@ body { background-color: #4E9CB5; margin: 0; font-family: 'Lato', sans-serif; fo
     height: 32px;
   }
 }
+.screen { padding-bottom: 20px; }
+.details { text-align: left; }
 h2 { margin: 0; padding: 3px 5px; color: #4E9CB5; }
 h3 { color: #4E9CB5 - #555; font-weight: bold; text-align: center; margin: 0; padding: 3px 0 5px; }
 .shareTwitter { background: url(/images/twitter-icon.png) 0 0 no-repeat; }
@@ -61,6 +56,5 @@ h3 { color: #4E9CB5 - #555; font-weight: bold; text-align: center; margin: 0; pa
 .shareLink { background: url(/images/link-icon.png) 0 0 no-repeat; }
 footer {
   line-height: 20px;
-  height: 20px;
   padding: 20px 0;
 }

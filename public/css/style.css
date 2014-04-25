@@ -17,23 +17,10 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 13px;
 }
-#body {
+.container {
   background-color: #FFF;
-  width: 980px;
   margin: 0 auto;
   box-shadow: 0 0 4px 0 #79C9FF;
-}
-#left {
-  width: 600px;
-  float: left;
-}
-#left #targetImage {
-  max-width: 600px;
-}
-#right {
-  width: 360px;
-  float: right;
-  text-align: left;
 }
 #urlInput {
   padding: 5px;
@@ -46,6 +33,7 @@ body {
   border: 1px solid #4E9CB5;
 }
 #sharing {
+  margin: 10px 0;
   text-align: center;
 }
 #sharing b {
@@ -62,6 +50,12 @@ body {
   vertical-align: top;
   width: 32px;
   height: 32px;
+}
+.screen {
+  padding-bottom: 20px;
+}
+.details {
+  text-align: left;
 }
 h2 {
   margin: 0;
@@ -89,6 +83,5 @@ h3 {
 }
 footer {
   line-height: 20px;
-  height: 20px;
   padding: 20px 0;
 }

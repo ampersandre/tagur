@@ -50,19 +50,15 @@ app.use(function(req, res, next) {
 
 /// error handlers
 
-// development settings
-if (app.get('env') === 'development') {
-    mongoose.connect('mongodb://ampersandre:password@ds049337.mongolab.com:49337/reddit');
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+mongoose.connect('mongodb://ampersandre:password@ds049337.mongolab.com:49337/reddit');
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: err
     });
-}
+});
 
-// Production settings
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -73,7 +69,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 var debug = require('debug')('tagur');
 
 var server = app.listen(app.get('port'), function() {

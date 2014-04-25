@@ -21,42 +21,18 @@ var Tagur = (function() {
 			id: '',
 			image: null,
 			width: null,
+            maxWidth: 640,
 			host: null,
 			height: null,
 			onCommentAdded: null,
-			markerPosition: function(marker, x, y) {
-				marker.css({ left:x-11, top:y-12 });
+			markerPosition: function(data) {
+                data.marker.css({ left: data.xP*100+'%', top: data.yP*100+'%' });
 			},
 			editorPosition: function(editor, x, y) {
-                var width = imageWidth();
-                var height = imageHeight();
-				if (x >= width / 2 && y >= height / 2) { /* The marker is in the bottom-right of the image */
-					editor.css({ top:'auto', right:width-x+13, bottom: height-y+2, left: 'auto' });
-				} else if (x >= width / 2 && y < height / 2) { /* The marker is in the top-right of the image */
-					editor.css({ top:y-12, right:width-x+13, bottom: 'auto', left: 'auto' });
-				} else if (x < width / 2 && y < height / 2) { /* The marker is in the top-left of the image */
-					editor.css({ top:y-12, right:'auto', bottom: 'auto', left: x+7 });
-				} else { /* The marker is in the bottom-left of the image */
-					editor.css({ top:'auto', right:'auto', bottom: height-y+2, left: x+7 });
-				}
-                // Try this: always assume the marker is in the top-left;
                 editor.css({ top:y-12, right:'auto', bottom: 'auto', left: x+7 });
 			},
-			popupPosition: function(popup, x, y) {
-                var width = imageWidth();
-                var height = imageHeight();
-				popup.removeClass('br bl tr tl');
-				if (x >= width / 2 && y >= height / 2) { /* The marker is in the bottom-right of the image */
-					popup.css({ top:'auto', right:width-x+15, bottom: height-y+2, left: 'auto' }).addClass('br');
-				} else if (x >= width / 2 && y < height / 2) { /* The marker is in the top-right of the image */
-					popup.css({ top:y-15, right:width-x+15, bottom: 'auto', left: 'auto' }).addClass('tr');
-				} else if (x < width / 2 && y < height / 2) { /* The marker is in the top-left of the image */
-					popup.css({ top:y-15, right:'auto', bottom: 'auto', left: x+9 }).addClass('tl');
-				} else { /* The marker is in the bottom-left of the image */
-					popup.css({ top:'auto', right:'auto', bottom: height-y+2, left: x+9 }).addClass('bl');
-				}
-                // Try this: always put it to the left of the marker
-                popup.css({ top:y-15, right:'auto', bottom: 'auto', left: x+9 }).addClass('tl');
+			popupPosition: function(data) {
+                data.popup.css({ top: data.yP*data.imageHeight-7, right:'auto', bottom: 'auto', left: data.xP*data.imageWidth+10 }).addClass('tl');
 			},
 			readOnly: false
 		}
@@ -64,7 +40,7 @@ var Tagur = (function() {
 		$.extend(settings, options);
 		
 		/* State Variables */
-		var image = settings.image || $('#'+settings.id);
+		var image = (settings.image || $('#'+settings.id));
 		function imageWidth() { return settings.width || image.width(); }
 		function imageHeight() { return settings.height || image.height(); }
 		var comments = [];
@@ -72,6 +48,10 @@ var Tagur = (function() {
 
 		/* UI */
 		var imageContainer = $('<div class="annotationContainer">');
+        console.log(imageWidth());
+        console.log(settings.maxWidth);
+        imageContainer.css('max-width', Math.min(imageWidth(), settings.maxWidth)+'px');
+        image.addClass('annotationImage');
 		var popup = $('<div class="annotationPopup">').hide();
 		var editor = $('<div class="annotationEditor">').hide();
 		var editorInput = $('<input type="text" class="annotationEditorInput"/>');
@@ -130,21 +110,21 @@ var Tagur = (function() {
 		/* Public Methods */
 		function addMarker(xP, yP) {
 			var marker = $('<div class="annotationMarker">');
-			settings.markerPosition(marker, xP * imageWidth(), yP * imageHeight());
+            marker.xP = xP;
+            marker.yP = yP;
+
+			settings.markerPosition({marker: marker, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
 	        marker.hover(function() {
 	        	marker.addClass('hover');
 	        	if (marker.comment){
 		        	popup.html(marker.comment).show();
-		        	settings.popupPosition(popup, xP * imageWidth(), yP * imageHeight());
+		        	settings.popupPosition({popup: popup, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
 	        	}
 	        }, function() {
 	        	marker.removeClass('hover');
 	        	popup.hide();
 	        });
 	        marker.click(function(e) { e.stopPropagation(); });
-
-	        marker.xP = xP;
-	        marker.yP = yP;
 
 	        imageContainer.append(marker);
 	        return marker;
