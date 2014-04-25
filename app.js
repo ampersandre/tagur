@@ -2,11 +2,13 @@ var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
+var request = require('request');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var multer = require('multer');
 var mongoose = require('mongoose');
 var fs = require('fs');
-var multiparty = require('multiparty');
 
 var app = express();
 
@@ -18,24 +20,14 @@ app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(function(req, res, next){
-    if(req.method === 'POST' && req.headers['content-type'].indexOf("multipart/form-data") !== -1){
-        var form = new multiparty.Form();
-        form.parse(req, function(err, fields, files){
-            req.files = files;
-            next();
-        });
-    }
-    else next();
-});
+app.use(methodOverride());
+app.use(multer({ dest: './public/uploads/'}));
 app.use(cookieParser());
 app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Require all the models
-fs.readdirSync(__dirname + '/models').forEach(function(filename){
-    if (~filename.indexOf('.js')) { require(__dirname + '/models/'+ filename); }
-})
+// Grab the models
+require('./models/Image');
 
 // Load routes
 var routes = require('./routes/index');

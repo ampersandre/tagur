@@ -8,6 +8,11 @@ node_modules/
 ###############
 .idea
 
+###################
+## upload directory
+###################
+public/uploads/
+
 #################
 ## Eclipse
 #################
