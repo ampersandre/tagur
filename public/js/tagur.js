@@ -90,18 +90,23 @@ var Tagur = (function() {
 		});
 
 		if (!settings.readOnly) {
-			imageContainer.click(function(e) {
-				if (newMarker) { newMarker.remove(); }
-		        var posX = e.pageX-$(this).offset().left, posY = e.pageY-$(this).offset().top;
+            function showEditor(e) {
+                if (newMarker) { newMarker.remove(); }
+                var posX = e.pageX-$(this).offset().left, posY = e.pageY-$(this).offset().top;
 
                 var xP = posX / imageWidth();
                 var yP = posY / imageHeight();
 
-		        newMarker = addMarker(xP, yP);
-		        settings.editorPosition(editor, posX, posY);
-		        editor.show();
-		        editorInput.focus();
-			});
+                newMarker = addMarker(xP, yP);
+                settings.editorPosition(editor, posX, posY);
+                editor.show();
+                editorInput.focus();
+            }
+            if (Modernizr.touch) {
+                imageContainer.taphold(showEditor);
+            } else {
+                imageContainer.click(showEditor);
+            }
 		}
 		limitInput(editorInput, 140, editorInputLimitCount);
 
