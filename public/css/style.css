@@ -17,7 +17,29 @@ body {
   font-family: 'Lato', sans-serif;
   font-size: 13px;
 }
+header {
+  background-color: #222;
+  color: #FFF;
+  font-weight: bold;
+  padding: 10px 0;
+}
+header .annotationMarker {
+  display: inline-block;
+  margin: 0;
+  position: relative;
+}
+#headerMsg {
+  display: none;
+  color: #000;
+  left: 22px;
+}
+h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 2em;
+}
 .container {
+  padding-top: 20px;
   background-color: #FFF;
   margin: 0 auto;
   box-shadow: 0 0 4px 0 #79C9FF;
@@ -29,8 +51,7 @@ body {
 }
 #uploadForm {
   display: inline-block;
-  padding: 5px;
-  border: 1px solid #4E9CB5;
+  margin-top: 10px;
 }
 #sharing {
   margin: 10px 0;
@@ -57,17 +78,26 @@ body {
 .details {
   text-align: left;
 }
+.details:before {
+  content: "";
+  font-size: 1px;
+  padding: 0px 290px;
+  border-top: 3px solid #4E9CB5;
+}
 h2 {
   margin: 0;
-  padding: 3px 5px;
+  padding: 0 0 5px;
   color: #4E9CB5;
+  font-size: 1.6em;
+  font-weight: bold;
 }
 h3 {
   color: #004760;
   font-weight: bold;
   text-align: center;
   margin: 0;
-  padding: 3px 0 5px;
+  padding: 3px 0 7px;
+  font-size: 1.4em;
 }
 .shareTwitter {
   background: url(/images/twitter-icon.png) 0 0 no-repeat;

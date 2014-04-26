@@ -24,6 +24,8 @@
     <script src="/js/tagur.js"></script>
     <script>
         $(function() {
+            var headerMsg = $('#headerMsg');
+            $('#headerTag').hover(function(){headerMsg.show()}, function(){headerMsg.hide()});
             var loadImageButton = $('#loadImageButton');
             var imageContainer = $('#imageContainer');
 
@@ -135,30 +137,33 @@
     </script>
 </head>
 <body style="text-align: center">
+<header><h1>Tagur <div id="headerTag" class="annotationMarker"><div id="headerMsg" class="annotationPopup">Nice to meet you!</div></div></h1></header>
 <div class="container">
-    <header><h1>Tagur <img src="/images/comment-icon.png"/></h1></header>
     <div class="row">
-            <div class="col-md-8 screen">
-                {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
-                <h3>Click on the image to add tags :)</h3>
-                <div id="imageContainer">
-                </div>
+        <div class="col-md-12">
+            <p><b>Tagur.io</b> is a tool that allows you to comment directly on an image (jpg, png, even gif!)</p>
+        </div>
+        <div class="col-md-8 screen">
+            {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
+            <h3>Click on the image to add tags :)</h3>
+            <div id="imageContainer">
             </div>
-            <div class="col-md-4 details">
-                <p><b>Tagur.io</b> is a tool that allows you to comment directly on an image (jpg, png, even gif!)</p>
-                <p>Create one using the form below and add your tags. When you share it, others will be able to see your tags, and add their own!</p>
-                <h2>Make one of your own</h2>
-                <input id="urlInput" name="src" placeholder="Paste an image URL"/>
-                <button id="loadImageButton">Load Image</button>
+        </div>
+        <div class="col-md-4 details">
+            <h2>Make one of your own</h2>
+            <p><b>Create one</b> using the form below and add your tags. When you share it, others will be able to see your tags, and add their own!</p>
 
-                <h2>Or, upload an image</h2>
-                <form id="uploadForm" method="post" action="/image/upload" enctype="multipart/form-data">
-                    <input type="file" name="uploadedImage"/>
-                    <br/>
-                    <input type="submit">Upload</input>
-                </form>
+            <input id="urlInput" name="src" placeholder="Paste an image URL"/>
+            <button id="loadImageButton">Load Image</button>
 
-            </div>
+            <h2 style="margin-top: 15px;">Or, upload an image</h2>
+            <form id="uploadForm" method="post" action="/image/upload" enctype="multipart/form-data">
+                <input type="file" name="uploadedImage"/>
+                <br/>
+                <input type="submit" value="Upload"/>
+            </form>
+
+        </div>
     </div>
     <footer>Built by <a href="https://github.com/ampersandre/tagur">ampersandre</a> in Node.js with Express, Mongoose and Hogan <img src="/images/hogan-icon.png"/></footer>
     <div id="fb-root"></div>
