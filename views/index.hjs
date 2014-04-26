@@ -38,7 +38,6 @@
                 var encodedUrl = encodeURIComponent(imageUrl);
                 $.post('/new/', { src: imageUrl },
                     function(imageData) {
-
                         loadTagur(imageData, imageUrl);
                     });
             });
@@ -109,6 +108,19 @@
                 });
                 image.src = imageUrl;
             }
+
+            $('#uploadForm').submit( function(e) {
+                $.ajax({
+                    url: '/image/upload',
+                    type: 'POST',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false
+                }).done(function(result){
+                    loadTagur({}, result.data.link);
+                });
+                return false;
+            } );
 
             loadTagur(
             {{#imageJson}} [{

@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var request = require('request');
 var Image = mongoose.model('Image');
+var fs = require('fs');
 
 function saveImage(req, res, objectId) {
     if (!(req.body.hasOwnProperty('src') || objectId) ||
@@ -35,14 +36,16 @@ router.post('/image', function(req, res) {
 });
 router.post('/image/upload', function(req, res) {
     console.log(req.files);
+    console.log('http://'+req.headers.host+'/uploads/'+req.files.uploadedImage.name);
     request({
         url: 'https://api.imgur.com/3/image.json',
         method: 'POST',
-        form: { image: 'http://aaronparecki.com/images/bike-icon.png'},
+        form: { image: 'http://'+req.headers.host+'/uploads/'+req.files.uploadedImage.name },
+        //form: { image: 'http://i.imgur.com/qrkXOA2.jpg' }, // for testing on localhost
         headers: { 'Authorization': 'Client-ID 2964e421ec33193' }
     },function(error, response, body){
-        console.log(body);
-        res.send('Not implemented yet');
+        res.json(JSON.parse(body));
+        fs.unlink(req.files.uploadedImage.path);
     });
 });
 router.post('/image/:id', function(req, res) {

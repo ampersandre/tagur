@@ -48,8 +48,6 @@ var Tagur = (function() {
 
 		/* UI */
 		var imageContainer = $('<div class="annotationContainer">');
-        console.log(imageWidth());
-        console.log(settings.maxWidth);
         imageContainer.css('max-width', Math.min(imageWidth(), settings.maxWidth)+'px');
         image.addClass('annotationImage');
 		var popup = $('<div class="annotationPopup">').hide();
