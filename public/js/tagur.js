@@ -26,13 +26,21 @@ var Tagur = (function() {
 			height: null,
 			onCommentAdded: null,
 			markerPosition: function(data) {
-                data.marker.css({ left: data.xP*100+'%', top: data.yP*100+'%' });
+                data.element.css({ left: data.xP*100+'%', top: data.yP*100+'%' });
 			},
-			editorPosition: function(editor, x, y) {
-                editor.css({ top:y-12, right:'auto', bottom: 'auto', left: x+7 });
+			editorPosition: function(data) {
+                if (data.xP > 0.5) { // right-side
+                    data.element.css({ top: data.yP*data.imageHeight-12, left:'auto', bottom: 'auto', right: data.imageWidth - data.xP*data.imageWidth+13 })
+                } else { // left-side
+                    data.element.css({ top: data.yP*data.imageHeight-12, right:'auto', bottom: 'auto', left: data.xP*data.imageWidth+10 })
+                }
 			},
 			popupPosition: function(data) {
-                data.popup.css({ top: data.yP*data.imageHeight-7, right:'auto', bottom: 'auto', left: data.xP*data.imageWidth+10 }).addClass('tl');
+                if (data.xP > 0.5) { // right-side
+                    data.element.css({ top: data.yP*data.imageHeight-7, left:'auto', bottom: 'auto', right: data.imageWidth - data.xP*data.imageWidth+10 })
+                } else { // left-side
+                    data.element.css({ top: data.yP*data.imageHeight-7, right:'auto', bottom: 'auto', left: data.xP*data.imageWidth+10 })
+                }
 			},
 			readOnly: false
 		}
@@ -47,22 +55,23 @@ var Tagur = (function() {
 		var newMarker;
 
 		/* UI */
-		var imageContainer = $('<div class="annotationContainer">');
+		var imageContainer = $('<div class="annotationContainer"></div>');
         imageContainer.css('max-width', Math.min(imageWidth(), settings.maxWidth)+'px');
         image.addClass('annotationImage');
-		var popup = $('<div class="annotationPopup">').hide();
-		var editor = $('<div class="annotationEditor">').hide();
+        var annotationImageMask = $('<div class="annotationImageMask"></div>');
+		var popup = $('<div class="annotationPopup"></div>').hide();
+		var editor = $('<div class="annotationEditor"></div>').hide();
 		var editorInput = $('<input type="text" class="annotationEditorInput"/>');
 		var editorInputLimitCount = $('<span>');
 		var editorInputLimit = $('<div class="annotationEditorInputLimit"> remaining</div>').prepend(editorInputLimitCount);
-		var editorSave = $('<button class="annotationEditorSave">Save</butston>');
+		var editorSave = $('<button class="annotationEditorSave">Save</button>');
 		var editorCancel = $('<button class="annotationEditorCancel">Cancel</button>');
 		editor.append(editorInput).append(editorInputLimit).append(editorSave).append(editorCancel).click(function(e) { e.stopPropagation(); });
 		
 		editorInput.keypress(function(e){ if (e.which == 13) { editorSave.click(); return false; } });
 
 		imageContainer = image.wrap(imageContainer).parent();
-		imageContainer.append(editor).append(popup);
+		imageContainer.append(annotationImageMask).append(editor).append(popup);
 
 		/* UI Functionality */
 		editorSave.click(function() {
@@ -91,21 +100,31 @@ var Tagur = (function() {
 
 		if (!settings.readOnly) {
             function showEditor(e) {
+                console.log(e);
                 if (newMarker) { newMarker.remove(); }
-                var posX = e.pageX-$(this).offset().left, posY = e.pageY-$(this).offset().top;
+                var posX = e.pageX-$(e.target).offset().left, posY = e.pageY- $(e.target).offset().top;
 
                 var xP = posX / imageWidth();
                 var yP = posY / imageHeight();
 
                 newMarker = addMarker(xP, yP);
-                settings.editorPosition(editor, posX, posY);
+                settings.editorPosition({element: editor, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
                 editor.show();
                 editorInput.focus();
+                e.preventDefault();
+                return false;
             }
             if (Modernizr.touch) {
-                imageContainer.taphold(showEditor);
+                // jQuery Mobile's taphold event doesn't carry pageX and pageY so I have to catch the coords and pass them in to the taphold handler
+                var touchCoords = { pageX : 0, pageY : 0 };
+                $(document).on('vmousedown', function(event){ touchCoords.pageX = event.pageX; touchCoords.pageY = event.pageY; });
+                annotationImageMask.taphold(function(e){
+                    e.pageX = touchCoords.pageX;
+                    e.pageY = touchCoords.pageY;
+                    showEditor(e);
+                });
             } else {
-                imageContainer.click(showEditor);
+                annotationImageMask.click(showEditor);
             }
 		}
 		limitInput(editorInput, 140, editorInputLimitCount);
@@ -116,12 +135,12 @@ var Tagur = (function() {
             marker.xP = xP;
             marker.yP = yP;
 
-			settings.markerPosition({marker: marker, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
+			settings.markerPosition({element: marker, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
 	        marker.hover(function() {
 	        	marker.addClass('hover');
 	        	if (marker.comment){
 		        	popup.html(marker.comment).show();
-		        	settings.popupPosition({popup: popup, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
+		        	settings.popupPosition({element: popup, xP: xP, yP: yP, imageWidth: imageWidth(), imageHeight: imageHeight()});
 	        	}
 	        }, function() {
 	        	marker.removeClass('hover');

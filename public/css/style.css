@@ -99,6 +99,15 @@ h3 {
   padding: 3px 0 7px;
   font-size: 1.4em;
 }
+.mobile {
+  display: none;
+}
+.device .mobile {
+  display: block;
+}
+.device .desktop {
+  display: none;
+}
 .shareTwitter {
   background: url(/images/twitter-icon.png) 0 0 no-repeat;
 }

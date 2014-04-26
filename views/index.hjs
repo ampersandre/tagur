@@ -26,6 +26,9 @@
     <script src="/js/tagur.js"></script>
     <script>
         $(function() {
+            if (Modernizr.touch) {
+                $('body').addClass('device');
+            }
             var headerMsg = $('#headerMsg');
             $('#headerTag').hover(function(){headerMsg.show()}, function(){headerMsg.hide()});
             var loadImageButton = $('#loadImageButton');
@@ -125,7 +128,6 @@
                 });
                 return false;
             } );
-
             loadTagur(
             {{#imageJson}} [{
                 _id: "{{id}}", src: "{{src}}", comments:[ {{#comments}} {
@@ -147,7 +149,10 @@
         </div>
         <div class="col-md-8 screen">
             {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
-            <h3>Click on the image to add tags :)</h3>
+
+            <h3 class="desktop">Click on the image to add tags :)</h3>
+            <h3 class="mobile">Press-and-hold to add a tag :)
+            <br/><small>(and tap on a tag to read it!)</small></h3>
             <div id="imageContainer">
             </div>
         </div>
