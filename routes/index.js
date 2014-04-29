@@ -35,16 +35,14 @@ router.post('/image', function(req, res) {
     saveImage(req, res);
 });
 router.post('/image/upload', function(req, res) {
-    console.log(req.files);
-    console.log('http://'+req.headers.host+'/uploads/'+req.files.uploadedImage.name);
     request({
         url: 'https://api.imgur.com/3/image.json',
         method: 'POST',
-        form: { image: 'http://'+req.headers.host+'/uploads/'+req.files.uploadedImage.name },
-        //form: { image: 'http://i.imgur.com/qrkXOA2.jpg' }, // for testing on localhost
+        //form: { image: 'http://'+req.headers.host+'/uploads/'+req.files.uploadedImage.name },
+        form: { image: 'http://i.imgur.com/qrkXOA2.jpg' }, // for testing on localhost
         headers: { 'Authorization': 'Client-ID 2964e421ec33193' }
     },function(error, response, body){
-        res.json(JSON.parse(body));
+        res.render('image', {src: JSON.parse(body).data.link});
         fs.unlink(req.files.uploadedImage.path);
     });
 });
@@ -55,7 +53,7 @@ router.post('/image/:id', function(req, res) {
 router.get('/image/:id', function(req, res) {
     var objectId = req.params.id;
     Image.findById(objectId, function(err, image) {
-        res.render('index', { imageJson: image });
+        res.render('image', { image: image });
     });
 });
 router.get('/images', function(req, res) {
@@ -69,15 +67,17 @@ router.post('/new', function(req,res) {
         res.statusCode = 400;
         return res.send('Error 400: Post syntax incorrect');
     }
-    Image.find({src: req.body.src}, function(err, image) {
+    var src = req.body.src;
+    Image.find({src: src}, function(err, image) {
         if (err) return console.error(err);
-        res.json(image);
+        res.render('image', { image: image, src: src });
     });
 });
 
 router.get('/', function(req, res) {
-    Image.findById('5355dffad299fa214bbfd28e', function(err, image) {
-        res.render('index', { imageJson: image, home: true });
+    Image.find().limit(9).exec(function(err, images) {
+        console.log(images);
+        res.render('index', { images: images });
     });
 });
 

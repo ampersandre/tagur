@@ -72,6 +72,16 @@ h1 {
   width: 32px;
   height: 32px;
 }
+.gallery a {
+  display: inline-block;
+  width: 30%;
+  margin: 10px;
+  border: 1px solid #999;
+  padding: 10px;
+}
+.gallery a img {
+  width: 100%;
+}
 .screen {
   padding-bottom: 20px;
 }

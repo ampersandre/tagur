@@ -31,137 +31,35 @@
             }
             var headerMsg = $('#headerMsg');
             $('#headerTag').hover(function(){headerMsg.show()}, function(){headerMsg.hide()});
-            var loadImageButton = $('#loadImageButton');
-            var imageContainer = $('#imageContainer');
-
-            var imageUrlInput = $('#urlInput').keypress(function (e) {
-                if (e.which == 13) {
-                    loadImageButton.click();
-                    return false;
-                }
-            });
-            loadImageButton.click(function() {
-                var imageUrl = imageUrlInput.val();
-                var encodedUrl = encodeURIComponent(imageUrl);
-                $.post('/new/', { src: imageUrl },
-                    function(imageData) {
-                        loadTagur(imageData, imageUrl);
-                    });
-            });
-            function loadTagur(imageJson, imageUrl) {
-                $('#caption').hide();
-                imageUrl = imageUrl || imageJson[0].src;
-
-                var image = new Image();
-                imageContainer.html('<img src="' + imageUrl + '" id="targetImage"/>');
-
-                $(image).on('load', function() {
-
-                    var showShareLinks = function(id) {
-                        var sharing = $('<div id="sharing"><b>Share: </b></div>');
-                        var shareUrl = 'http://'+window.location.host + '/image/'+id;
-
-                        /* Hook up the share buttons */
-                        sharing.append($('<span class="shareFacebook"></span>').click(function() {
-                            FB.ui({
-                                method: 'feed',
-                                link: shareUrl
-                            }, function(response) { /* Success */ });
-                        }));
-                        sharing.append($('<a href="" class="shareTwitter"></a>').mouseover(function(e) { /* Update the twitter share link on hover so it's ready when they click */
-                            $(this).attr('href','https://twitter.com/intent/tweet?url='+encodeURIComponent(shareUrl));
-                            twttr.widgets.load(); /* Refresh the twitter share link, then reload the widget */
-                            e.preventDefault();
-                            return false;
-                        }));
-                        sharing.append($('<a href="" class="shareGoogle"></a>').click(function(e) {
-                            window.open('https://plus.google.com/share?url='+encodeURIComponent(shareUrl),
-                                    '',
-                                    'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
-                            e.preventDefault;
-                            return false;
-                        }));
-                        sharing.append($('<a href="'+shareUrl+'" class="shareLink"></a>'));
-                        imageContainer.append(sharing);
-                        showShareLinks = function() {}
-                    }
-
-                    var commentImage = Tagur.prepare({
-                        id: 'targetImage',
-                        onCommentAdded: function (comment) {
-                            $.post('/image/', {
-                                src: commentImage.src,
-                                comment: comment.comment,
-                                xP: comment.xP,
-                                yP: comment.yP
-                            }, function (data) {
-                                showShareLinks(data._id)
-                            });
-                        }
-                    });
-
-                    if (imageJson.length > 0) {
-                        showShareLinks(imageJson[0]._id);
-                        var comments = imageJson[0].comments;
-                        for (var i = 0; i < comments.length; i++) {
-                            var comment = comments[i];
-                            commentImage.addComment({
-                                xP: comment.xP,
-                                yP: comment.yP,
-                                comment: comment.text
-                            });
-                        }
-                    }
-                });
-                image.src = imageUrl;
-            }
-
-            $('#uploadForm').submit( function(e) {
-                $.ajax({
-                    url: '/image/upload',
-                    type: 'POST',
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false
-                }).done(function(result){
-                    loadTagur({}, result.data.link);
-                });
-                return false;
-            } );
-            loadTagur(
-            {{#imageJson}} [{
-                _id: "{{id}}", src: "{{src}}", comments:[ {{#comments}} {
-                    xP: {{xP}},
-                    yP: {{yP}},
-                    text: "{{text}}"
-                } {{^last}} , {{/last}} {{/comments}} ]
-            }] {{/imageJson}});
-            $('#caption').show();
         });
     </script>
 </head>
 <body style="text-align: center">
-<header><h1>Tagur <div id="headerTag" class="annotationMarker"><div id="headerMsg" class="annotationPopup">Nice to meet you!</div></div></h1></header>
+<header><h1><a href="/">Tagur</a> <div id="headerTag" class="annotationMarker"><div id="headerMsg" class="annotationPopup">Nice to meet you!</div></div></h1></header>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <p><b>Tagur.io</b> is a tool that allows you to comment directly on an image (jpg, png, even gif!)</p>
         </div>
         <div class="col-md-8 screen">
-            {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
-
-            <h3 class="desktop">Click on the image to add tags :)</h3>
-            <h3 class="mobile">Press-and-hold to add a tag :)
-            <br/><small>(and tap on a tag to read it!)</small></h3>
-            <div id="imageContainer">
+            <h2>Check out some images that have recently been Tagur'd</h2>
+            <div class="gallery">
+                {{#images}}
+                    <a href="/image/{{_id}}">
+                        <img src="{{src}}"/>
+                    </a>
+                {{/images}}
             </div>
+
         </div>
         <div class="col-md-4 details">
             <h2>Make one of your own</h2>
             <p><b>Create one</b> using the form below and add your tags. When you share it, others will be able to see your tags, and add their own!</p>
 
-            <input id="urlInput" name="src" placeholder="Paste an image URL"/>
-            <button id="loadImageButton">Load Image</button>
+            <form id="urlForm" method="post" action="/new">
+                <input id="urlInput" name="src" placeholder="Paste an image URL"/>
+                <input type="submit" value="Load Image"/>
+            </form>
 
             <h2 style="margin-top: 15px;">Or, upload an image</h2>
             <form id="uploadForm" method="post" action="/image/upload" enctype="multipart/form-data">
@@ -173,24 +71,6 @@
         </div>
     </div>
     <footer>Built by <a href="https://github.com/ampersandre/tagur">ampersandre</a> in Node.js with Express, Mongoose and Hogan <img src="/images/hogan-icon.png"/></footer>
-    <div id="fb-root"></div>
-    <script> /* Include the FB API for the social button */
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId      : '243022152568981',
-            status     : true,
-            xfbml      : true
-        });
-    };
-
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/all.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-    </script>
 </div>
 </body>
 </html>
