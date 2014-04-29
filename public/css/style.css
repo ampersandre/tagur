@@ -82,11 +82,14 @@ h1 a:hover {
   display: inline-block;
   width: 30%;
   margin: 10px;
-  border: 1px solid #999;
   padding: 10px;
+  background-color: #F1F1FF;
 }
 .gallery a img {
   width: 100%;
+}
+.gallery a:hover {
+  background-color: #31b0d5;
 }
 .screen {
   padding-bottom: 20px;
