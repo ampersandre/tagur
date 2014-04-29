@@ -130,20 +130,7 @@
             </div>
         </div>
         <div class="col-md-4 details">
-            <h2>Make one of your own</h2>
-            <p><b>Create one</b> using the form below and add your tags. When you share it, others will be able to see your tags, and add their own!</p>
-
-            <form id="urlForm" method="post" action="/new">
-                <input id="urlInput" name="src" placeholder="Paste an image URL"/>
-                <input type="submit" value="Load Image"/>
-            </form>
-
-            <h2 style="margin-top: 15px;">Or, upload an image</h2>
-            <form id="uploadForm" method="post" action="/image/upload" enctype="multipart/form-data">
-                <input type="file" name="uploadedImage"/>
-                <br/>
-                <input type="submit" value="Upload"/>
-            </form>
+            {{> forms}}
 
         </div>
     </div>

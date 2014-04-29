@@ -1,0 +1,13 @@
+<h2>Make one of your own</h2>
+<p><b>Create one</b> using the form below and add your tags. When you share it, others will be able to see your tags, and add their own!</p>
+
+<form id="urlForm" class="form-inline" method="post" action="/new" role="form">
+    <input type="url" id="urlInput" name="src" placeholder="Paste an image URL" class="form-control"/>
+    <input type="submit" class="btn btn-primary" value="Load Image"/>
+</form>
+
+<h2 style="margin-top: 15px;">Or, upload an image</h2>
+<form id="uploadForm" class="form-inline" method="post" action="/image/upload" enctype="multipart/form-data" role="form">
+    <input type="file" name="uploadedImage"/>
+    <input type="submit" class="btn btn-success" value="Upload"/>
+</form>

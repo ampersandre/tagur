@@ -42,7 +42,7 @@ router.post('/image/upload', function(req, res) {
         form: { image: 'http://i.imgur.com/qrkXOA2.jpg' }, // for testing on localhost
         headers: { 'Authorization': 'Client-ID 2964e421ec33193' }
     },function(error, response, body){
-        res.render('image', {src: JSON.parse(body).data.link});
+        res.render('image', { partials: { forms: 'forms' },src: JSON.parse(body).data.link});
         fs.unlink(req.files.uploadedImage.path);
     });
 });
@@ -53,7 +53,7 @@ router.post('/image/:id', function(req, res) {
 router.get('/image/:id', function(req, res) {
     var objectId = req.params.id;
     Image.findById(objectId, function(err, image) {
-        res.render('image', { image: image });
+        res.render('image', { partials: { forms: 'forms' }, image: image });
     });
 });
 router.get('/images', function(req, res) {
@@ -70,14 +70,14 @@ router.post('/new', function(req,res) {
     var src = req.body.src;
     Image.find({src: src}, function(err, image) {
         if (err) return console.error(err);
-        res.render('image', { image: image, src: src });
+        res.render('image', { partials: { forms: 'forms' }, image: image, src: src });
     });
 });
 
 router.get('/', function(req, res) {
     Image.find().limit(9).exec(function(err, images) {
         console.log(images);
-        res.render('index', { images: images });
+        res.render('index', { partials: { forms: 'forms' }, images: images });
     });
 });
 

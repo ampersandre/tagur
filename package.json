@@ -9,7 +9,7 @@
     "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
     "debug": "~0.7.4",
-    "hjs": "~0.0.6",
+    "hogan-express": "*",
     "less-middleware": "0.1.15",
     "mongoose": "*",
     "method-override": "~1.0.0",

@@ -38,6 +38,12 @@ h1 {
   margin: 0;
   font-size: 2em;
 }
+h1 a {
+  color: #FFF;
+}
+h1 a:hover {
+  color: #FFF;
+}
 .container {
   padding-top: 20px;
   background-color: #FFF;
@@ -93,6 +99,9 @@ h1 {
   font-size: 1px;
   padding: 0px 290px;
   border-top: 3px solid #4E9CB5;
+}
+input[type=file] {
+  margin-bottom: 10px;
 }
 h2 {
   margin: 0;

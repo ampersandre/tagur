@@ -15,7 +15,13 @@ body { background-color: #4E9CB5; margin: 0; font-family: 'Lato', sans-serif; fo
 header { background-color: #222; color: #FFF; font-weight: bold; padding: 10px 0; }
 header .annotationMarker { display: inline-block; margin: 0; position: relative; }
 #headerMsg { display: none; color: #000; left: 22px; }
-h1 { padding: 0; margin: 0; font-size: 2em; }
+h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 2em;
+  a { color: #FFF; }
+  a:hover { color: #FFF; }
+}
 .container {
   padding-top: 20px;
   background-color: #FFF;
@@ -69,6 +75,9 @@ h1 { padding: 0; margin: 0; font-size: 2em; }
   font-size: 1px;
   padding: 0px 290px;
   border-top: 3px solid #4E9CB5;
+}
+input[type=file] {
+  margin-bottom: 10px;
 }
 h2 { margin: 0; padding: 0 0 5px; color: #4E9CB5; font-size: 1.6em; font-weight: bold; }
 h3 { color: #4E9CB5 - #555; font-weight: bold; text-align: center; margin: 0; padding: 3px 0 7px; font-size: 1.4em; }

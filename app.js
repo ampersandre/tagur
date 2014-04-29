@@ -14,7 +14,9 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hjs');
+app.engine('html', require('hogan-express'));
+app.enable('view cache');
+app.set('view engine', 'html');
 
 app.use(favicon());
 app.use(logger('dev'));
