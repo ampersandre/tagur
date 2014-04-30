@@ -82,7 +82,7 @@ router.post('/new', function(req,res) {
 });
 
 router.get('/', function(req, res) {
-    Image.find().limit(6).exec(function(err, images) {
+    Image.find().limit(6).sort('date').exec(function(err, images) {
         mustache(res, 'index', { images: images });
     });
 });
