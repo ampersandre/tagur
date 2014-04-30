@@ -14,7 +14,7 @@
 body {
   background-color: #4E9CB5;
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Ropa Sans', sans-serif;
   font-size: 13px;
 }
 header {
@@ -40,6 +40,7 @@ h1 {
 }
 h1 a {
   color: #FFF;
+  font-family: 'Graduate', sans-serif;
 }
 h1 a:hover {
   color: #FFF;
@@ -90,12 +91,31 @@ h1 small b {
   padding: 10px;
   min-width: 160px;
   background-color: #F1F1FF;
+  position: relative;
 }
 .gallery a img {
   width: 100%;
 }
+.gallery a span {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border-radius: 0 0 0 50%;
+  background-color: #13C199;
+  color: #FFF;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none !important;
+  padding: 0 7px;
+}
 .gallery a:hover {
   background-color: #31b0d5;
+}
+.gallery a:hover span {
+  background-color: #587D5B;
 }
 .screen {
   padding-bottom: 20px;
