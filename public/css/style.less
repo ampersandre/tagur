@@ -21,6 +21,7 @@ h1 {
   font-size: 2em;
   a { color: #FFF; }
   a:hover { color: #FFF; }
+  small b { color: #FFF; display: inline-block; margin-left: 2px;}
 }
 .container {
   padding-top: 20px;
@@ -62,6 +63,7 @@ h1 {
     width: 30%;
     margin: 10px;
     padding: 10px;
+    min-width: 160px;
     background-color: #F1F1FF;
     img {
       width: 100%;
@@ -73,16 +75,11 @@ h1 {
 }
 .screen { padding-bottom: 20px; }
 .details { text-align: left; }
-.details:before {
-  content: "";
-  font-size: 1px;
-  padding: 0px 290px;
-  border-top: 3px solid #4E9CB5;
-}
+
 input[type=file] {
   margin-bottom: 10px;
 }
-h2 { margin: 0; padding: 0 0 5px; color: #4E9CB5; font-size: 1.6em; font-weight: bold; }
+h2 { margin: 0; padding: 0 0 5px; /*color: #4E9CB5;*/ font-size: 1.6em; font-weight: bold; }
 h3 { color: #4E9CB5 - #555; font-weight: bold; text-align: center; margin: 0; padding: 3px 0 7px; font-size: 1.4em; }
 .mobile { display: none; }
 .device .mobile { display: block; }

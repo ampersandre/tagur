@@ -114,12 +114,9 @@
     </script>
 </head>
 <body style="text-align: center">
-<header><h1><a href="/">Tagur</a> <div id="headerTag" class="annotationMarker"><div id="headerMsg" class="annotationPopup">Nice to meet you!</div></div></h1></header>
+{{> header }}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <p><b>Tagur.io</b> is a tool that allows you to comment directly on an image (jpg, png, even gif!)</p>
-        </div>
         <div class="col-md-8 screen">
             {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
 
@@ -134,7 +131,7 @@
 
         </div>
     </div>
-    <footer>Built by <a href="https://github.com/ampersandre/tagur">ampersandre</a> in Node.js with Express, Mongoose and Hogan <img src="/images/hogan-icon.png"/></footer>
+{{> footer}}
     <div id="fb-root"></div>
     <script> /* Include the FB API for the social button */
     window.fbAsyncInit = function() {
