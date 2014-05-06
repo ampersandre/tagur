@@ -47,26 +47,26 @@
                         var shareUrl = 'http://'+window.location.host + '/image/'+id;
 
                         /* Hook up the share buttons */
-                        sharing.append($('<span class="shareFacebook"></span>').click(function() {
+                        sharing.append($('<span title="Share this on Facebook!" class="shareFacebook" alt="Share this on Facebook!"></span>').click(function() {
                             FB.ui({
                                 method: 'feed',
                                 link: shareUrl
                             }, function(response) { /* Success */ });
                         }));
-                        sharing.append($('<a href="" class="shareTwitter"></a>').mouseover(function(e) { /* Update the twitter share link on hover so it's ready when they click */
+                        sharing.append($('<a href="" title="Share this on Twitter!" alt="Share this on Twitter!" class="shareTwitter"></a>').mouseover(function(e) { /* Update the twitter share link on hover so it's ready when they click */
                             $(this).attr('href','https://twitter.com/intent/tweet?url='+encodeURIComponent(shareUrl));
                             twttr.widgets.load(); /* Refresh the twitter share link, then reload the widget */
                             e.preventDefault();
                             return false;
                         }));
-                        sharing.append($('<a href="" class="shareGoogle"></a>').click(function(e) {
+                        sharing.append($('<a href="" title="Share this on Google!" alt="Share this on Google!" class="shareGoogle"></a>').click(function(e) {
                             window.open('https://plus.google.com/share?url='+encodeURIComponent(shareUrl),
                                     '',
                                     'menubar=no,toolbar=no,resizable=no,scrollbars=no,height=400,width=600');
                             e.preventDefault;
                             return false;
                         }));
-                        sharing.append($('<a href="'+shareUrl+'" class="shareLink"></a>'));
+                        sharing.append($('<a title="Permalink" alt="Permalink" href="'+shareUrl+'" class="shareLink"></a>'));
                         imageContainer.append(sharing);
                         showShareLinks = function() {}
                     }
@@ -120,8 +120,8 @@
         <div class="col-md-8 screen">
             {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
 
-            <h3 class="desktop">Click on the image to add tags :)</h3>
-            <h3 class="mobile">Press-and-hold to add a tag :)
+            <h3 class="desktop">Click on the image to add tags</h3>
+            <h3 class="mobile">Press-and-hold to add a tag
                 <br/><small>(and tap on a tag to read it!)</small></h3>
             <div id="imageContainer">
             </div>

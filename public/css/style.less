@@ -27,12 +27,36 @@ h1 {
   }
 }
 .container {
+  position: relative;
   padding-top: 20px;
   background-color: #FFF;
   margin: 0 auto;
   box-shadow: 0 0 4px 0 #79C9FF;
 }
+.popup {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  padding: 5px;
+  z-index: 99;
+  width: 200px;
+  text-align: right;
+  .explanation {
+    text-align: left;
+    background-color: #FFF;
+    display: none;
+  }
+}
+.popup:hover {
+  top: 0px;
+  right: 0px;
+  background-color: #FFF;
+  border: 1px solid #4E9CB5;
+  -webkit-box-shadow: 0px 0px 4px 0px #333;
+  box-shadow: 0px 0px 4px 0px #333;
 
+  .explanation { display: block; }
+}
 #urlInput {
   padding: 5px;
   font-size: 15 px;
@@ -54,10 +78,18 @@ h1 {
     margin-right: 10px;
   }
   span, a {
+    border-top: 0px #000 solid;
     display: inline-block;
     vertical-align: top;
     width: 32px;
-    height: 32px;
+    height: 36px;
+    cursor: pointer;
+    margin-right: 3px;
+  }
+  span:hover, a:hover {
+    border-top-width: 4px;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
   }
 }
 .gallery {
@@ -104,10 +136,10 @@ h3 { color: #4E9CB5 - #555; font-weight: bold; text-align: center; margin: 0; pa
 .mobile { display: none; }
 .device .mobile { display: block; }
 .device .desktop { display: none; }
-.shareTwitter { background: url(/images/twitter-icon.png) 0 0 no-repeat; }
-.shareFacebook { background: url(/images/facebook-icon.png) 0 0 no-repeat; }
-.shareGoogle { background: url(/images/google-icon.png) 0 0 no-repeat; }
-.shareLink { background: url(/images/link-icon.png) 0 0 no-repeat; }
+.shareTwitter { border-top-color: #00ACED!important; background: url(/images/twitter-icon.png) 0 0 no-repeat; }
+.shareFacebook { border-top-color: #3B5998!important; background: url(/images/facebook-icon.png) 0 0 no-repeat; }
+.shareGoogle { border-top-color: #D14836!important; background: url(/images/google-icon.png) 0 0 no-repeat; }
+.shareLink { border-top-color: #00C9B1!important; background: url(/images/link-icon.png) 0 0 no-repeat; }
 footer {
   line-height: 20px;
   padding: 20px 0;
