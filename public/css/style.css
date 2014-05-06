@@ -12,13 +12,13 @@
   display: block;
 }
 body {
-  background-color: #4E9CB5;
+  background-color: #222;
   margin: 0;
   font-family: 'Ropa Sans', sans-serif;
   font-size: 13px;
 }
 header {
-  background-color: #222;
+  background-color: #00C9B1;
   color: #FFF;
   font-weight: bold;
   padding: 10px 0;
@@ -39,14 +39,17 @@ h1 {
   font-size: 2em;
 }
 h1 a {
-  color: #FFF;
+  color: #111;
   font-family: 'Graduate', sans-serif;
 }
 h1 a:hover {
-  color: #FFF;
+  color: #111;
+}
+h1 small {
+  color: #444;
 }
 h1 small b {
-  color: #FFF;
+  color: #111;
   display: inline-block;
   margin-left: 2px;
 }
