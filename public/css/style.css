@@ -36,7 +36,7 @@ header .annotationMarker {
 h1 {
   padding: 0;
   margin: 0;
-  font-size: 2em;
+  font-size: 2rem;
 }
 h1 a {
   color: #111;
@@ -87,12 +87,36 @@ h1 small b {
 }
 #urlInput {
   padding: 5px;
-  font-size: 15 px;
+  font-size: 15px;
   margin: 5px 0;
 }
 #uploadForm {
   display: inline-block;
   margin-top: 10px;
+}
+.fileWrapper {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.fileWrapper input {
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  font-size: 50px;
+  opacity: 0;
+  -moz-opacity: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+#uploadError {
+  display: none;
+  padding: 5px;
+  font-size: 1.6rem;
+  border-radius: 3px;
+  margin-top: 15px;
 }
 #sharing {
   margin: 10px 0;
@@ -168,7 +192,7 @@ h2 {
   margin: 0;
   padding: 0 0 5px;
   /*color: #4E9CB5;*/
-  font-size: 1.6em;
+  font-size: 1.6rem;
   font-weight: bold;
 }
 h3 {
@@ -177,7 +201,7 @@ h3 {
   text-align: center;
   margin: 0;
   padding: 3px 0 7px;
-  font-size: 1.4em;
+  font-size: 1.4rem;
 }
 .mobile {
   display: none;

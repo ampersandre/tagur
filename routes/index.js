@@ -43,6 +43,7 @@ router.post('/image', function(req, res) {
     saveImage(req, res);
 });
 router.post('/image/upload', function(req, res) {
+    console.log(req.files);
     request({
         url: 'https://api.imgur.com/3/image.json',
         method: 'POST',

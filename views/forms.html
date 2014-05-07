@@ -8,6 +8,23 @@
 
 <h2 style="margin-top: 15px;">Or, upload an image</h2>
 <form id="uploadForm" class="form-inline" method="post" action="/image/upload" enctype="multipart/form-data" role="form">
-    <input type="file" name="uploadedImage"/>
-    <input type="submit" class="btn btn-success" value="Upload"/>
+    <span class="fileWrapper btn btn-success">Upload<input type="file" id="uploadedImage" name="uploadedImage"/></span>
+    <div id="uploadError" class="bg-danger" style="display: none;">Only images may be uploaded. Supported image types include:
+    <br/>jpg, jpeg, png, gif, bmp</div>
 </form>
+<script>
+    $(function() {
+        var uploadForm = $('#uploadForm');
+        $('#uploadedImage').change(function() {
+            var ext = this.value.match(/\.(.+)$/)[1];
+            switch (ext) {
+                case 'jpg': case 'jpeg': case 'png': case 'gif': case 'bmp':
+                    uploadForm.submit();
+                    break;
+                default:
+                    $('#uploadError').fadeOut(function(){ $(this).fadeIn(); });
+                    this.value = '';
+            }
+        });
+    });
+</script>

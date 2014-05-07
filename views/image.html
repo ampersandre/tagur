@@ -118,6 +118,10 @@
 {{> header }}
 <div class="container">
     <div class="row">
+        <div class="col-md-4 details">
+            {{> forms}}
+
+        </div>
         <div class="col-md-8 screen">
             {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
 
@@ -126,10 +130,6 @@
                 <br/><small>(and tap on a tag to read it!)</small></h3>
             <div id="imageContainer">
             </div>
-        </div>
-        <div class="col-md-4 details">
-            {{> forms}}
-
         </div>
     </div>
 {{> footer}}
