@@ -145,6 +145,37 @@ h1 {
   }
 }
 .screen { padding-bottom: 20px; }
+.screen h2 {
+	background-color: #4E9CB5;
+	color: #FFF;
+	padding: 10px;
+	margin-top: 7px;
+}
+#tagHelp {
+	cursor: help;
+}
+@fade-color: #668BF9;
+@fade-distance: 19px;
+@transparent: rgba(255,255,255,0);
+@-webkit-keyframes pulsate {
+    0% {
+		box-shadow: 0px 0px @fade-distance 4px @transparent, 0px 0px @fade-distance 0px @transparent inset;
+		border: none;
+	}
+    50% { 
+	    box-shadow: 0px 0px @fade-distance 4px @fade-color, 0px 0px @fade-distance 0px @fade-color inset;
+		border: 1px solid @fade-color;
+	}
+    100% {
+		box-shadow: 0px 0px @fade-distance 4px @transparent, 0px 0px @fade-distance 0px @transparent inset;
+		border: none;
+	}
+}
+.screen.glow .annotationMarker {
+	-webkit-animation: pulsate 1.5s ease-out;
+    -webkit-animation-iteration-count: infinite;
+	border-radius: 19px;
+}
 .details { text-align: left; }
 
 input[type=file] {

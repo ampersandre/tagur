@@ -78,7 +78,7 @@ router.post('/new', function(req,res) {
     var src = req.body.src;
     Image.find({src: src}, function(err, image) {
         if (err) return console.error(err);
-        mustache(res, 'image', { image: image, src: src });
+        mustache(res, 'image', { image: image, src: src, newImage: true });
     });
 });
 

@@ -111,6 +111,12 @@
                             } {{^last}} , {{/last}} {{/comments}} ]
                 } {{/image}}], '{{#src}}{{src}}{{/src}}');
             $('#caption').show();
+			var screen = $('.screen');
+			$('#tagHelp').hover(function() {
+				screen.addClass('glow');
+			}, function() {
+				screen.removeClass('glow');
+			});
         });
     </script>
 </head>
@@ -123,11 +129,12 @@
 
         </div>
         <div class="col-md-8 screen">
-            {{#home}}<h2 id="caption" style="display: none;">Here's one of our favourites</h2>{{/home}}
-
+            {{#newImage}}{{#image}} <h2>It looks like someone has already Tagur'd this image.<br/>You can add to it below!</h2> {{/image}}{{/newImage}}
+			
             <h3 class="desktop">Click on the image to add tags</h3>
             <h3 class="mobile">Press-and-hold to add a tag
                 <br/><small>(and tap on a tag to read it!)</small></h3>
+			<div id="tagHelp"><span class="glyphicon glyphicon-question-sign"></span> I can't see the tags, where are they?</div>
             <div id="imageContainer">
             </div>
         </div>
