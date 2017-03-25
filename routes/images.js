@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
+var fs = require('fs');
 var mongoose = require('mongoose');
 var Image = mongoose.model('Image');
 var imageUtils = require('../lib/image-utils');
@@ -20,6 +22,24 @@ router.post('/', function(req, res) {
 });
 
 
+/* /images/upload */
+router.post('/upload', upload.single('uploadedImage'), function(req, res) {
+    console.log('the file', req.file);
+    var imageBits = fs.readFileSync(req.file.path);
+    // convert binary data to base64 encoded string
+    var base64Image = new Buffer(imageBits).toString('base64');
+    request({
+        url: 'https://api.imgur.com/3/image.json',
+        method: 'POST',
+        form: { image: base64Image },
+        headers: { 'Authorization': 'Client-ID 2964e421ec33193' }
+    },function(error, response, body){
+        res.render('image', {src: JSON.parse(body).data.link});
+        fs.unlink(req.file.path);
+    });
+});
+
+
 /* /images/:id */
 router.get('/:id', function(req, res) {
     var objectId = req.params.id;
@@ -31,22 +51,6 @@ router.get('/:id', function(req, res) {
 router.post('/:id', function(req, res) {
     var objectId = req.params.id;
     imageUtils.saveImage(req, res, objectId);
-});
-
-
-/* /images/upload */
-router.post('/upload', upload.single('image'), function(req, res) {
-    console.log('the file', req.file);
-    request({
-        url: 'https://api.imgur.com/3/image.json',
-        method: 'POST',
-        form: { image: 'http://'+req.headers.host+'/uploads/'+req.files.uploadedImage.name },
-        //form: { image: 'http://i.imgur.com/qrkXOA2.jpg' }, // for testing on localhost
-        headers: { 'Authorization': 'Client-ID 2964e421ec33193' }
-    },function(error, response, body){
-        res.render('image', {src: JSON.parse(body).data.link});
-        fs.unlink(req.files.uploadedImage.path);
-    });
 });
 
 
