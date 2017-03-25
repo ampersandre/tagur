@@ -18,13 +18,25 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    imageUtils.saveImage(req, res);
+    var imagePayload = {
+        src: req.body.src,
+        xP: req.body.xP,
+        yP: req.body.yP,
+        comment: req.body.comment
+    };
+
+    imageUtils.updateImage(imagePayload)
+        .then(savedImage => {
+            res.json(savedImage);
+        })
+        .catch(err => {
+            res.status(err.status || 500).json({ err });
+        });
 });
 
 
 /* /images/upload */
 router.post('/upload', upload.single('uploadedImage'), function(req, res) {
-    console.log('the file', req.file);
     var imageBits = fs.readFileSync(req.file.path);
     // convert binary data to base64 encoded string
     var base64Image = new Buffer(imageBits).toString('base64');
@@ -49,8 +61,17 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/:id', function(req, res) {
-    var objectId = req.params.id;
-    imageUtils.saveImage(req, res, objectId);
+    var imagePayload = {
+       objectId: req.params.id
+    };
+
+    imageUtils.updateImage(imagePayload)
+        .then(savedImage => {
+            res.json(savedImage);
+        })
+        .catch(err => {
+            res.status(err.status || 500).json({ err });
+        });
 });
 
 
